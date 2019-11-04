@@ -34,7 +34,7 @@ data "google_client_config" "default" {
 }
 
 module "gke" {
-  source     = "../../"
+  source     = "../modules/terraform-google-kubernetes-engine/"
   project_id = var.project_id
   name       = "${local.cluster_type}-cluster${var.cluster_name_suffix}"
   region     = var.region
@@ -47,9 +47,9 @@ module "gke" {
   service_account        = var.compute_engine_service_account
 }
 
-resource "kubernetes_pod" "nginx-example" {
+resource "kubernetes_pod" "flask" {
   metadata {
-    name = "nginx-example"
+    name = 
 
     labels = {
       maintained_by = "terraform"

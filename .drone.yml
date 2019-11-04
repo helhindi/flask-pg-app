@@ -8,18 +8,18 @@ platform:
   arch: amd64
 
 steps:
-- name: docker-build
-  image: plugins/docker
-  settings:
-    username:
-      from_secret: dockerhub_user
-    password:
-      from_secret: dockerhub_pass
-    repo: elhindi/flask-pg-app
-    tags:
-      - 'v0.1'
-      - "${DRONE_BUILD}"
-      - latest
+  - name: docker-build
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: dockerhub_user
+      password:
+        from_secret: dockerhub_pass
+      repo: elhindi/flask-pg-app
+      tags:
+        - 'v0.1'
+        - "${DRONE_BUILD}"
+        - latest
 
 ---
 kind: pipeline
@@ -31,18 +31,18 @@ platform:
   arch: amd64
 
 steps:
-- name: terraform
-  terraform:
-    image: jmccann/drone-terraform:1
-    plan: false
-    #sensitive: true
-    root_dir: infra/modules/terraform-google-kubernetes-engine/examples/deploy_service
-    remote:
-    backend: gcs
-      config:
-        bucket: terraform
-        key: "${DRONE_BRANCH}"/tf-states/my-project
-        region: eu-west-2
+  - name: terraform
+    terraform:
+      image: jmccann/drone-terraform:1
+      plan: false
+      # sensitive: true
+      root_dir: infra/modules/terraform-google-kubernetes-engine/examples/deploy_service
+      remote:
+      backend: gcs
+        config:
+          bucket: terraform
+          key: "${DRONE_BRANCH}"/tf-states/my-project
+          region: eu-west-2
 
 ---
 # kind: pipeline
