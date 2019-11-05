@@ -75,21 +75,21 @@ spec:
       - name: "postgres"
         image: "postgres:9.6.2"
         env:
-        - name: "POSTGRES_DB"
-          valueFrom:
-            configMapKeyRef:
-              key: "POSTGRES_DB"
-              name: "postgres-config"
-        - name: "POSTGRES_USER"
-          valueFrom:
-            configMapKeyRef:
-              key: "POSTGRES_USER"
-              name: "postgres-config"
-        - name: "POSTGRES_PASSWORD"
-          valueFrom:
-            configMapKeyRef:
-              key: "POSTGRES_PASSWORD"
-              name: "postgres-config"
+          - name: "POSTGRES_DB"
+            valueFrom:
+              configMapKeyRef:
+                key: "POSTGRES_DB"
+                name: "postgres-config"
+          - name: "POSTGRES_USER"
+            valueFrom:
+              configMapKeyRef:
+                key: "POSTGRES_USER"
+                name: "postgres-config"
+          - name: "POSTGRES_PASSWORD"
+            valueFrom:
+              configMapKeyRef:
+                key: "POSTGRES_PASSWORD"
+                name: "postgres-config"
         ports:
           - containerPort: 5432
             name: postgres

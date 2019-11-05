@@ -34,7 +34,7 @@ data "google_client_config" "default" {
 }
 
 module "gke" {
-  source     = "../modules/terraform-google-kubernetes-engine/"
+  source     = "terraform-google-modules/kubernetes-engine/google"
   project_id = var.project_id
   name       = "${local.cluster_type}-cluster${var.cluster_name_suffix}"
   region     = var.region
@@ -47,40 +47,169 @@ module "gke" {
   service_account        = var.compute_engine_service_account
 }
 
-resource "kubernetes_pod" "flask" {
+# Namespace
+resource "kubernetes_namespace" "myapps" {
   metadata {
-    name = 
+    annotations {
+      name = "myapps"
+    }
+    name = "myapps"
+    
+    labels = {
+      maintained_by = "terraform"
+      env           = "develop"
+    }
+  }
+}
+
+# Config Map
+resource "kubernetes_config_map" "postgres-configmap" {
+  metadata {
+    name      = "postgres-configmap"
+    namespace = "${kubernetes_namespace.myapps.metadata.0.name}"
+    
+    labels = {
+      maintained_by = "terraform"
+      app           = "postgres"
+      env           = "develop"
+    }
+  }
+
+  data = {
+    POSTGRES_DB       = "pg_db"
+    POSTGRES_USER     = "helhindi"
+    POSTGRES_PASSWORD = "${file("postgres.secret")}"
+  }
+}
+
+# Secret
+resource "kubernetes_secret" "postgres-secret" {
+  metadata {
+    name      = "postgres-secret"
+    namespace = "${kubernetes_namespace.monitoring.myapps.0.name}"
+  }
+  data {
+    "POSTGRES_PASSWORD" = "${file("postgres.secret")}"
+  }
+  type = "Opaque"
+}
+
+# Peristent volume Claim
+resource "kubernetes_persistent_volume_claim" "postgres-pv-claim" {
+  metadata {
+    name      = "postgres-pv-claim"
+    namespace = "${kubernetes_namespace.myapps.metadata.0.name}"
 
     labels = {
       maintained_by = "terraform"
-      app           = "nginx-example"
+      app           = "postgres"
+      env           = "develop"
+    }
+  }
+
+  spec {
+    resources {
+      requests {
+        storage = "5Gi"
+      }
+    }
+
+    access_modes = ["ReadWriteOnce"]
+  }
+}
+resource "kubernetes_pod" "postgres" {
+  metadata {
+    name      = "flask"
+    namespace = "${kubernetes_namespace.myapps.metadata.0.name}"
+
+    labels = {
+      maintained_by = "terraform"
+      app           = "postgres"
+      env           = "develop"
     }
   }
 
   spec {
     container {
-      image = "nginx:1.7.9"
-      name  = "nginx-example"
+      image = "postgres:9.6.2"
+      name  = "postgres"
+      env {
+        - name: "POSTGRES_DB"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_DB"
+              name: "postgres-config"
+        - name: "POSTGRES_USER"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_USER"
+              name: "postgres-config"
+        - name: "POSTGRES_PASSWORD"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_PASSWORD"
+              name: "postgres-config"
+      }
+        port {
+          container_port = 5432
+        }
+        volumeMounts {
+          - name: postgres-storage
+            mountPath: /var/lib/postgresql/db-data
+        }
+        volumes:
+          - name: postgres-storage
+            persistentVolumeClaim:
+              claimName: postgres-pv-claim
     }
   }
 
   depends_on = [module.gke]
 }
 
-resource "kubernetes_service" "nginx-example" {
+
+resource "kubernetes_pod" "flask" {
   metadata {
-    name = "terraform-example"
+    name          = "flask"
+    namespace:    = "develop"
+
+    labels = {
+      maintained_by = "terraform"
+      app           = "flask"
+      env           = "develop"
+    }
+  }
+
+  spec {
+    container {
+      image = "elhindi/flask-pg-app:v0.1"
+      name  = "flask"
+    }
+  }
+
+  depends_on = [module.gke]
+}
+
+resource "kubernetes_service" "flask-svc" {
+  metadata {
+    name      = "flask"
+    namespace = "develop"
+
+    labels = {
+      maintained_by = "terraform"
+      app           = "flask"
+      env           = "develop"
   }
 
   spec {
     selector = {
-      app = kubernetes_pod.nginx-example.metadata[0].labels.app
+      app = kubernetes_pod.flask.metadata[0].labels.app
     }
 
     session_affinity = "ClientIP"
 
     port {
-      port        = 8080
+      port        = 5000
       target_port = 80
     }
 

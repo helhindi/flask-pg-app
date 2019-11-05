@@ -25,6 +25,7 @@ variable "cluster_name_suffix" {
 
 variable "region" {
   description = "The region to host the cluster in"
+  default = "europe-west2"
 }
 
 variable "network" {
