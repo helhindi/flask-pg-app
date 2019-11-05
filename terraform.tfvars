@@ -13,15 +13,13 @@
 # limitations under the License.
 
 gcp_project_id  = "gke-sample-258119"
-
-cluster_name    = "guestbook"
+cluster_name    = "flask-pg-app"
 
 # The location (region or zone) in which the cluster will be created. If you
 # specify a zone (such as us-central1-a), the cluster will be a zonal cluster.
 # If you specify a region (such as us-west1), the cluster will be a regional
 # cluster.
 gcp_location    = "europe-west2-a"
-
 daily_maintenance_window_start_time = "03:00"
 
 node_pools = [
