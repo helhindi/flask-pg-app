@@ -1,0 +1,21 @@
+name: Build and Push
+on: 
+  push:
+      branches:    
+          - dev
+jobs:
+  build_publish_docker_hub:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Build and Push
+      uses: zemuldo/docker-build-push@master
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_NAMESPACE: ""
+        REGISTRY_URL: "docker.io"
+      with:
+       image_name: "flask-pg-app"
+       image_tag: "latest"
