@@ -1,11 +1,11 @@
 #####################################################################
 # GKE Cluster
 #####################################################################
-resource "google_container_cluster" "flask-pg-app" {
-  name                      = "flask-pg-app"
-  location                  = "${var.location}"
-  remove_default_node_pool  = true
-  initial_node_count        = 1
+resource "google_container_cluster" "guestbook" {
+  name               = "guestbook"
+  # zone               = "${var.region}"
+  location           = "${var.location}"
+  initial_node_count = 2
 
   addons_config {
     network_policy_config {
@@ -17,22 +17,8 @@ resource "google_container_cluster" "flask-pg-app" {
     username = "${var.username}"
     password = "${var.password}"
   }
-}
-
-resource "google_container_node_pool" "primary_nodes" {
-  name       = "flask-pg-app"
-  location   = "${var.location}"
-  cluster    = "${google_container_cluster.primary.name}"
-  node_count = 1
 
   node_config {
-    preemptible  = false
-    machine_type = "n1-standard-1"
-
-    metadata = {
-      disable-legacy-endpoints = "true"
-    }
-
     oauth_scopes = [
       "https://www.googleapis.com/auth/devstorage.read_only",
       "https://www.googleapis.com/auth/logging.write",

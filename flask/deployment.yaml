@@ -20,7 +20,7 @@ metadata:
       spec:
         containers:
         - name: "flask"
-          image: "docker.io/elhindi/flask-pg-app:v0.1"
+          image: "docker.io/elhindi/flask-pg-app:latest"
 
 ---
 apiVersion: "v1"

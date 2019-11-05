@@ -16,9 +16,7 @@ terraform {
   required_version = "~> 0.12"
 
   # Use a GCS Bucket as a backend
-  # backend "gcs" {
-  #   bucket  = "<your-gcs-project-id>-tf-state"
-  #}
+  backend "gcs" {}
 }
 
 # Local values assign a name to an expression, that can then be used multiple

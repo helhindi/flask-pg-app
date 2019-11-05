@@ -50,7 +50,7 @@ resource "kubernetes_replication_controller" "redis-slave" {
   }
 
   spec {
-    replicas = 2
+    replicas = 1
 
     selector = {
       app  = "redis"
@@ -94,7 +94,7 @@ resource "kubernetes_replication_controller" "frontend" {
   }
 
   spec {
-    replicas = 3
+    replicas = 1
 
     selector = {
       app  = "guestbook"
