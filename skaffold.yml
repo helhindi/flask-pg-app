@@ -1,0 +1,9 @@
+apiVersion: skaffold/v1beta17
+kind: Config
+build:
+  artifacts:
+  - image: docker.io/elhindi/flask-pg-app:latest
+deploy:
+  kubectl:
+    manifests:
+      - deployment.yml
