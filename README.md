@@ -9,11 +9,16 @@ A sample flask app with a postgresql backend. The app server can be reached at `
 
 #### Clone repo & install pre-req tools:
 From an OSX machine's Terminal; launch the following commands:
+```
+  git clone https://github.com/helhindi/flask-pg-app.git &&cd flask-pg-app
+```
 
 #### Install `brew`:
+**Note:** If `brew` is installed; skip step `(a)` below:
 ```
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  brew bundle --verbose
+  (a) /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    
+  (b) brew bundle --verbose
 ```
 #### Initialise `gcloud`:
 Assuming you've installed `gcloud` (as shown above); init, authenticate and set compute zone interactively via:
