@@ -12,12 +12,15 @@ A sample flask app with a postgresql backend. The app server can be reached at `
 From an OSX machine's Terminal; launch the following commands:
 
 #### Install `brew`:
-* `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-* `brew bundle --verbose`
-
+```
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew bundle --verbose
+```
 #### Initialise `gcloud`:
 Assuming you've installed `gcloud` (as shown above); init, authenticate and set compute zone interactively via:
-* `gcloud init`
+```
+  gcloud init
+```
 
 Enable the following API's:
 ```
@@ -37,10 +40,10 @@ Create TF service account, generate a key for it and save key location as an `en
 ```
 
 Create a GCS bucket for TF state and initialise it:
-
-`gsutil mb -l [REGION] gs://[BUCKET_NAME]`
-`terraform init -backend-config=bucket=[BUCKET_NAME] -backend-config=project=[GOOGLE_PROJECT]`
-
+```
+  gsutil mb -l [REGION] gs://[BUCKET_NAME]
+  terraform init -backend-config=bucket=[BUCKET_NAME] -backend-config=project=[GOOGLE_PROJECT]
+```
 #### Clone repo:
 ```
   git clone https://github.com/helhindi/flask-pg-app.git && cd flask-pg-app
@@ -51,7 +54,10 @@ Create a GCS bucket for TF state and initialise it:
   export TF_VAR_project="$(gcloud config list --format 'value(core.project)')"
   export TF_VAR_region="europe-west2"
 ```
-**Note:** Verify the vars by running: `echo TF_VAR_region=$TF_VAR_region&&echo TF_VAR_project=$TF_VAR_project
+**Note:** Verify the vars by running:
+```
+  echo TF_VAR_region=$TF_VAR_region&&echo TF_VAR_project=$TF_VAR_project
+```
 
 Also, enter your `gcp_project_id` and `gcp_location` in the `/terraform.tfvars` file.
 
@@ -63,23 +69,23 @@ Now specify an administrative account `user=admin` and set a random password:
 
 ## Initialise and create:
 ```
-terraform init
-terraform plan
+  terraform init
+  terraform plan
 ```
 Once happy with the above plan output; apply the change using:
 ```
-terraform apply
+  terraform apply
 ```
 Once the GKE cluster is up; deploy your code using:
 ```
-skaffold run (or 'skaffold dev' if you want to see code changes deployed immediately)
+  skaffold run (or 'skaffold dev' if you want to see code changes deployed immediately)
 ```
 To test the flask web service:
 ```
 kubectl port-forward svc/flask-service 80:8080
-curl localhost:8080/test
+  curl localhost:8080/test
 ```
 To test the postgres db:
 ```
-curl localhost:8080/test_db
+  curl localhost:8080/test_db
 ```
