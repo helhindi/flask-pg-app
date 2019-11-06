@@ -1,11 +1,10 @@
 # flask-pg-app
-[![Build Status](https://cloud.drone.io/api/badges/helhindi/flask-pg-app/status.svg)](https://cloud.drone.io/helhindi/flask-pg-app)
+[![Actions Status](https://xxx.execute-api.us-west-2.amazonaws.com/production/badge/helhindi/flask-pg-app)](https://xxx.execute-api.us-west-2.amazonaws.com/production/results/helhindi/flask-pg-app)
 
 ## Introduction
-A sample guestbopok app with redis backend.
+A sample flask app with a postgresql backend. The app server can be reached at `/test` and the db at `/test_db`. (see last paragraph explaining how to test)
 
-**Note:** This app started as a `flask` app with `postgres` db and was later modified to use `Terraform's Kubernetes` provider.<br/>
-The instructions assume an OSX machine with `brew` installed.
+**Note:** The instructions assume an OSX machine with `brew` installed.
 
 ## Getting Started
 
@@ -54,6 +53,8 @@ Create a GCS bucket for TF state and initialise it:
 ```
 **Note:** Verify the vars by running: `echo TF_VAR_region=$TF_VAR_region&&echo TF_VAR_project=$TF_VAR_project
 
+Also, enter your `gcp_project_id` and `gcp_location` in the `/terraform.tfvars` file.
+
 Now specify an administrative account `user=admin` and set a random password:
 ```
   export TF_VAR_user="admin"
@@ -65,7 +66,7 @@ Now specify an administrative account `user=admin` and set a random password:
 terraform init
 terraform plan
 ```
-Once happy; go ahead and apply (this will spin up a GKE cluster on GCP);
+Once happy with the above plan output; apply the change using:
 ```
 terraform apply
 ```
