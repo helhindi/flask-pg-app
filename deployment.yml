@@ -20,14 +20,14 @@ metadata:
       spec:
         containers:
         - name: "flask"
-          image: "docker.io/elhindi/flask-pg-app:latest"
+          image: "docker.io/elhindi/flask-pg-app"
 
 ---
 apiVersion: "v1"
 kind: "Service"
 metadata:
   name: "flask-service"
-  namespace: "${DRONE_BRANCH}"
+  namespace: "develop"
   labels:
     app: "flask"
 spec:
