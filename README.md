@@ -1,5 +1,5 @@
 # flask-pg-app
-[![Actions Status](https://github.com/helhindi/flask-pg-app/workflows/docker/badge.svg)](https://github.com/helhindi/flask-pg-app/actions)
+[![Actions Status](https://xxx.execute-api.us-west-2.amazonaws.com/production/badge/helhindi/flask-pg-app)](https://xxx.execute-api.us-west-2.amazonaws.com/production/results/helhindi/flask-pg-app)
 ## Introduction
 A sample flask app with a postgresql backend. The app server can be reached at `/test` and the db at `/test_db`. (see last paragraph explaining how to test)
 
