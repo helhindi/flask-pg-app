@@ -82,7 +82,7 @@ Once the GKE cluster is up; deploy your code using:
 ```
 To test the flask web service:
 ```
-kubectl port-forward svc/flask-service 80:8080
+  kubectl port-forward svc/flask-service 80:8080
   curl localhost:8080/test
 ```
 To test the postgres db:
