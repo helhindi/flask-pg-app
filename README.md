@@ -14,12 +14,15 @@ From an OSX machine's Terminal; launch the following commands:
 ```
 
 #### Install `brew`:
-**Note:** If `brew` is installed; skip step `(a)` below:
 ```
-  (a) /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    
-  (b) brew bundle --verbose
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
+#### Install tools:
+Install [`'google-cloud-sdk', 'kubectl', 'terraform', 'skaffold'`] by running:
+```
+  brew bundle --verbose
+```
+
 #### Initialise `gcloud`:
 Assuming you've installed `gcloud` (as shown above); init, authenticate and set compute zone interactively via:
 ```
@@ -80,7 +83,7 @@ Once happy with the above plan output; apply the change using:
 ```
   terraform apply
 ```
-Once the GKE cluster is up; deploy your code using:
+Once the GKE cluster is up; authenticate and connect to your cluster via `kubectl` and deploy your code using:
 ```
   skaffold run (or 'skaffold dev' if you want to see code changes deployed immediately)
 ```
