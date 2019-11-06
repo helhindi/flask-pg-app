@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: "flask"
-        image: "docker.io/elhindi/flask-pg-app:latest"
+        image: "eu.gcr.io/gke-sample-258119/flask-pg-app:latest"
 
 ---
 apiVersion: "v1"
