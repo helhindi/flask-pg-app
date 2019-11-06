@@ -79,12 +79,17 @@ Once the GKE cluster is up; deploy your code using:
 ```
   skaffold run (or 'skaffold dev' if you want to see code changes deployed immediately)
 ```
-To test the flask web service:
+
+## Test web and db deployments:
+Start by port forwarding traffic from `flask-service` to your terminal via:
 ```
   kubectl port-forward svc/flask-service 80:8080
+```
+Now to test the `flask` web service; run:
+```
   curl localhost:8080/test
 ```
-To test the postgres db:
+To test the `postgres` db; run:
 ```
   curl localhost:8080/test_db
 ```
