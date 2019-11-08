@@ -1,5 +1,5 @@
 # flask-pg-app
-![GitHub Actions status](https://github.com/helhindi/flask-pg-app/workflows/Docker/badge.svg)
+![GitHub Actions status](https://github.com/helhindi/flask-pg-app/workflows/docker_lint_build_publish/badge.svg)
 ## Introduction
 A sample flask app with a postgresql backend. The app server can be reached at `/test` and the db at `/test_db`. (see last paragraph explaining how to test)
 

@@ -1,4 +1,4 @@
-name: Docker
+name: docker_lint_build_publish
 
 on: [push]
 
