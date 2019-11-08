@@ -51,10 +51,6 @@ Create a GCS bucket for TF state and initialise it:
   gsutil mb -l [REGION] gs://[BUCKET_NAME]
   terraform init -backend-config=bucket=[BUCKET_NAME] -backend-config=project=[GOOGLE_PROJECT]
 ```
-#### Clone repo:
-```
-  git clone https://github.com/helhindi/flask-pg-app.git && cd flask-pg-app
-```
 
 #### Initialise Terraform GCP vars:
 ```
